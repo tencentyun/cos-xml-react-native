@@ -79,6 +79,7 @@ const uploadRequest = {
 }
 
 // 上传 与 暂停后续传对象
+// 注意如果是续传，请务必跟初始上传使用同一个 uploadRequest 对象 
 CosXmlReactNative.upload(uploadRequest, 
   (processedBytes: number, targetBytes: number) => {
     // 回调进度
