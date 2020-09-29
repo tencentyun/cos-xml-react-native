@@ -52,7 +52,7 @@ export type Secret = {
 export type SessionCredential = {
   tmpSecretId: string;
   tmpSecretKey: string;
-  expiredTime: string;
+  expiredTime: number;
   sessionToken: string;
 }
 
@@ -92,6 +92,9 @@ class COSTransferManagerService {
       cosModule.initWithSessionCredentialCallback(configurations)
       this.emitter.addListener("COSUpdateSessionCredential", async () => {
         const credential = await callback()
+        if (credential.expiredTime && typeof credential.expiredTime !== 'number') {
+          credential.expiredTime = parseInt(credential.expiredTime)
+        }
         cosModule.updateSessionCredential(credential)
       });
     } else {
